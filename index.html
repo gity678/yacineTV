@@ -4,63 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تطبيق بث مباشر</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.25.6/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/video.js@8.17.4/dist/video.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/video.js@8.17.4/dist/video-js.min.css" rel="stylesheet">
   <style>
-    body { font-family: 'Arial', sans-serif; direction: rtl; }
+    body { font-family: 'Arial', sans-serif; direction: rtl; background-color: #f0f0f0; }
     .channel-list { max-height: 400px; overflow-y: auto; }
     .channel-item:hover { background-color: #e5e7eb; cursor: pointer; }
   </style>
 </head>
-<body class="bg-gray-100">
+<body>
+  <h1>تحميل التطبيق...</h1>
   <div id="root"></div>
   <script type="text/babel">
-    const channels = [
-      { id: 1, name: "قناة رياضية 1", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
-      { id: 2, name: "قناة رياضية 2", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
-      { id: 3, name: "قناة أفلام", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
-    ];
+    console.log("Script is running...");
+    try {
+      const channels = [
+        { id: 1, name: "قناة رياضية 1", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
+        { id: 2, name: "قناة رياضية 2", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
+        { id: 3, name: "قناة أفلام", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
+      ];
 
-    const App = () => {
-      const [selectedChannel, setSelectedChannel] = React.useState(channels[0]);
+      console.log("Channels loaded:", channels);
 
-      return (
-        <div className="container mx-auto p-4">
-          <h1 className="text-3xl font-bold text-center mb-6">تطبيق البث المباشر</h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2">
-              <video
-                id="video-player"
-                className="video-js vjs-default-skin w-full h-96"
-                controls
-                autoPlay
-                data-setup='{}'
-              >
-                <source src={selectedChannel.url} type="application/x-mpegURL" />
-              </video>
-            </div>
-            <div className="channel-list bg-white p-4 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4">القنوات</h2>
-              {channels.map(channel => (
-                <div
-                  key={channel.id}
-                  className="channel-item p-2 mb-2 rounded-lg border"
-                  onClick={() => setSelectedChannel(channel)}
+      const App = () => {
+        const [selectedChannel, setSelectedChannel] = React.useState(channels[0]);
+        console.log("Selected channel:", selectedChannel);
+
+        return (
+          <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold text-center mb-6">تطبيق البث المباشر</h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="md:col-span-2">
+                <video
+                  id="video-player"
+                  className="video-js vjs-default-skin w-full h-96"
+                  controls
+                  autoPlay
+                  data-setup='{}'
                 >
-                  {channel.name}
-                </div>
-              ))}
+                  <source src={selectedChannel.url} type="application/x-mpegURL" />
+                </video>
+              </div>
+              <div className="channel-list bg-white p-4 rounded-lg shadow-md">
+                <h2 className="text-xl font-semibold mb-4">القنوات</h2>
+                {channels.map(channel => (
+                  <div
+                    key={channel.id}
+                    className="channel-item p-2 mb-2 rounded-lg border"
+                    onClick={() => setSelectedChannel(channel)}
+                  >
+                    {channel.name}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      );
-    };
+        );
+      };
 
-    ReactDOM.render(<App />, document.getElementById('root'));
+      console.log("Rendering App component...");
+      ReactDOM.render(<App />, document.getElementById('root'));
+      console.log("App rendered successfully!");
+    } catch (error) {
+      console.error("Error in script:", error);
+    }
   </script>
 </body>
 </html>
