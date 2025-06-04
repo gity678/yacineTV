@@ -1,23 +1,5 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تطبيق بث مباشر</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.25.6/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/video.js@8.17.4/dist/video.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/video.js@8.17.4/dist/video-js.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    body { font-family: 'Arial', sans-serif; direction: rtl; background-color: #f0f0f0; }
-    .channel-list { max-height: 400px; overflow-y: auto; }
-    .channel-item:hover { background-color: #e5e7eb; cursor: pointer; }
-  </style>
-</head>
 <body>
-  <h1>تحميل التطبيق...</h1>
+  <h1 id="loading-text">تحميل التطبيق...</h1>
   <div id="root"></div>
 
   <script type="text/babel">
@@ -67,6 +49,8 @@
     };
 
     ReactDOM.render(<App />, document.getElementById('root'));
+
+    // ⬇️ إخفاء نص التحميل بعد بدء التطبيق
+    document.getElementById('loading-text')?.remove();
   </script>
 </body>
-</html>
