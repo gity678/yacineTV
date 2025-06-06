@@ -2,8 +2,7 @@ const apiKey = "1ea076923fad980723ff35e2340f56e3";
 const today = new Date().toISOString().split('T')[0];
 const url = `https://v3.football.api-sports.io/fixtures?date=${today}`;
 
-// ✅ فقط مباريات ودية دولية
-const allowedLeagues = [10];
+const allowedLeagues = [10]; // فقط مباريات ودية دولية
 
 fetch(url, {
   method: "GET",
@@ -34,9 +33,19 @@ fetch(url, {
       const matchDiv = document.createElement("div");
       matchDiv.className = "match";
       matchDiv.innerHTML = `
-        <strong>${teams.home.name}</strong> vs <strong>${teams.away.name}</strong><br>
-        البطولة: ${league.name}<br>
-        الوقت: ${fixture.date.slice(11, 16)}
+        <div style="display: flex; justify-content: space-around; align-items: center;">
+          <div>
+            <img src="${teams.home.logo}" alt="${teams.home.name}" width="40"><br>
+            <strong>${teams.home.name}</strong>
+          </div>
+          <div style="font-size: 20px;">vs</div>
+          <div>
+            <img src="${teams.away.logo}" alt="${teams.away.name}" width="40"><br>
+            <strong>${teams.away.name}</strong>
+          </div>
+        </div>
+        <p>البطولة: ${league.name}</p>
+        <p>الوقت: ${fixture.date.slice(11, 16)}</p>
       `;
       matchesDiv.appendChild(matchDiv);
     });
