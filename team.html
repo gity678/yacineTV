@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تشكيلة الفريق</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 15px;
+      color: #222;
+      direction: rtl;
+    }
+    h1 {
+      color: #003366;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    #lineup {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+    }
+    .player {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .player:last-child {
+      border-bottom: none;
+    }
+    .position {
+      font-weight: bold;
+      width: 80px;
+    }
+    .name {
+      flex-grow: 1;
+    }
+    #loading {
+      text-align: center;
+      font-size: 18px;
+      color: #555;
+    }
+    #error {
+      color: red;
+      text-align: center;
+      font-weight: bold;
+    }
+    a.back-link {
+      display: block;
+      margin: 15px auto;
+      max-width: 600px;
+      text-align: center;
+      color: #003366;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>تشكيلة الفريق</h1>
+  <div id="loading">جارٍ تحميل التشكيلة...</div>
+  <div id="error" style="display:none;"></div>
+  <div id="lineup" style="display:none;"></div>
+  <a href="index.html" class="back-link">← العودة إلى المباريات</a>
+
+  <script>
+    const apiKey = "1ea076923fad980723ff35e2340f56e3";
+    const headers = {
+      "x-apisports-key": apiKey
+    };
+
+    function getTeamIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
+
+    async function fetchLastFixture(teamId) {
+      // نبحث عن آخر مباراة للفريق (مثلاً من بيانات الـ fixtures)
+      const today = new Date().toISOString().split('T')[0];
+      const url = `https://v3.football.api-sports.io/fixtures?team=${teamId}&season=2023&last=1`;
+
+      const response = await fetch(url, { headers });
+      const data = await response.json();
+      if (data.response && data.response.length > 0) {
+        return data.response[0];
+      }
+      return null;
+    }
+
+    async function fetchLineup(fixtureId, teamId) {
+      // جلب التشكيلة حسب fixture و team
+      const url = `https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixtureId}`;
+
+      const response = await fetch(url, { headers });
+      const data = await response.json();
+
+      if (data.response && data.response.length > 0) {
+        // ابحث عن التشكيلة التي تخص الفريق المطلوب
+        const lineup = data.response.find(lineup => lineup.team.id == teamId);
+        return lineup ? lineup.startXI : null;
+      }
+      return null;
+    }
+
+    async function main() {
+      const teamId = getTeamIdFromURL();
+
+      if (!teamId) {
+        document.getElementById("loading").style.display = "none";
+        const errorDiv = document.getElementById("error");
+        errorDiv.style.display = "block";
+        errorDiv.textContent = "لم يتم تحديد معرف الفريق في الرابط.";
+        return;
+      }
+
+      try {
+        const fixture = await fetchLastFixture(teamId);
+
+        if (!fixture) {
+          document.getElementById("loading").style.display = "none";
+          const errorDiv = document.getElementById("error");
+          errorDiv.style.display = "block";
+          errorDiv.textContent = "لم يتم العثور على آخر مباراة لهذا الفريق.";
+          return;
+        }
+
+        const lineup = await fetchLineup(fixture.fixture.id, teamId);
+
+        document.getElementById("loading").style.display = "none";
+
+        if (!lineup || lineup.length === 0) {
+          document.getElementById("error").style.display = "block";
+          document.getElementById("error").textContent = "لا توجد تشكيلة متاحة لهذه المباراة.";
+          return;
+        }
+
+        const lineupDiv = document.getElementById("lineup");
+        lineupDiv.style.display = "block";
+
+        lineup.forEach(playerObj => {
+          const div = document.createElement("div");
+          div.className = "player";
+
+          const posSpan = document.createElement("span");
+          posSpan.className = "position";
+          posSpan.textContent = playerObj.player.pos || playerObj.player.position || "غير معروف";
+
+          const nameSpan = document.createElement("span");
+          nameSpan.className = "name";
+          nameSpan.textContent = playerObj.player.name;
+
+          div.appendChild(posSpan);
+          div.appendChild(nameSpan);
+
+          lineupDiv.appendChild(div);
+        });
+      } catch (error) {
+        document.getElementById("loading").style.display = "none";
+        const errorDiv = document.getElementById("error");
+        errorDiv.style.display = "block";
+        errorDiv.textContent = "حدث خطأ أثناء جلب البيانات.";
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
