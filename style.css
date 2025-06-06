@@ -17,6 +17,13 @@ h1 {
   margin-bottom: 15px;
 }
 
+h2 {
+  color: #003366;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #003366;
+  padding-bottom: 5px;
+}
+
 .buttons {
   display: flex;
   justify-content: center;
@@ -45,19 +52,24 @@ button:hover {
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
-}
-
-.match a {
-  text-decoration: none;
-  color: #222;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.match a.team-link {
+  text-decoration: none;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  width: 80px;
+}
+
 .match img {
   display: block;
-  margin: 0 auto 5px;
+  margin-bottom: 5px;
   width: 40px;
   height: 40px;
   object-fit: contain;
@@ -75,6 +87,9 @@ button:hover {
   text-align: right;
   outline: none;
   margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .accordion-content {
@@ -85,4 +100,52 @@ button:hover {
   border-radius: 0 0 8px 8px;
   display: none;
   margin-bottom: 15px;
+  flex-direction: column;
+}
+
+/* أيقونة المفضلة */
+.favorite-icon {
+  font-size: 20px;
+  color: #ccc;
+  cursor: pointer;
+  user-select: none;
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.favorite-icon.favorited {
+  color: gold;
+}
+
+/* قسم المفضلة */
+#favoritesSection {
+  background: #e0f0ff;
+  border: 2px solid #003366;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+#favoritesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.favorite-item {
+  background: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #003366;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.favorite-item img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }
