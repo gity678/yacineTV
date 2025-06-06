@@ -6,24 +6,47 @@
   <style>
     body {
       font-family: Arial;
-      background: #f9f9f9;
+      background: #f0f0f0;
       padding: 20px;
-      direction: rtl;
       text-align: center;
     }
+
     .match {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin: 15px auto;
+      background-color: #fff;
+      border-radius: 12px;
       padding: 15px;
-      width: 300px;
+      margin: 15px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+
+    .match img {
+      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .teams {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .teams div {
+      width: 100px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    p {
+      margin: 8px 0;
     }
   </style>
 </head>
 <body>
 
-  <h1>المباريات الودية الدولية اليوم</h1>
+  <h1>مباريات ودية دولية هذا الأسبوع</h1>
   <div id="matches">جاري التحميل...</div>
 
   <script src="script.js"></script>
