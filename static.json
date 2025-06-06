@@ -1,7 +1,0 @@
-{
-  "public": ".",
-  "clean_urls": true,
-  "rewrites": [
-    { "source": "**", "destination": "/index.html" }
-  ]
-}

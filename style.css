@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  padding: 20px;
+  direction: rtl;
+  text-align: center;
+}
+
+#matches {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.match {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
