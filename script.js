@@ -2,8 +2,9 @@ const apiKey = "1ea076923fad980723ff35e2340f56e3";
 const today = new Date().toISOString().split('T')[0];
 const url = `https://v3.football.api-sports.io/fixtures?date=${today}`;
 
-const allowedLeagues = [2, 39, 140];  // مثال: دوري أبطال أوروبا، إنجليزي، إسباني
-const allowedTeams = [541, 529];     // مثال: ريال مدريد، برشلونة
+// ✅ المفضلة:
+const allowedLeagues = [1, 6, 10, 13];    // كأس العالم، أمم إفريقيا، ودية، تصفيات
+const allowedTeams = [1096];             // المنتخب المغربي
 
 fetch(url, {
   method: "GET",
@@ -29,7 +30,7 @@ fetch(url, {
     });
 
     if (filteredMatches.length === 0) {
-      matchesDiv.innerHTML = "<p>لا توجد مباريات مفضلة اليوم.</p>";
+      matchesDiv.innerHTML = "<p>لا توجد مباريات دولية أو للمنتخب المغربي اليوم.</p>";
       return;
     }
 
@@ -42,13 +43,6 @@ fetch(url, {
       matchDiv.className = "match";
       matchDiv.innerHTML = `
         <strong>${teams.home.name}</strong> vs <strong>${teams.away.name}</strong><br>
-        الدوري: ${league.name}<br>
+        البطولة: ${league.name}<br>
         الوقت: ${fixture.date.slice(11, 16)}
       `;
-      matchesDiv.appendChild(matchDiv);
-    });
-  })
-  .catch(error => {
-    console.error("خطأ:", error);
-    document.getElementById("matches").innerHTML = "حدث خطأ أثناء جلب البيانات.";
-  });
