@@ -16,24 +16,10 @@ function createAccordion(title, content) {
 
   const header = document.createElement("button");
   header.textContent = title;
-  header.style.width = "100%";
-  header.style.backgroundColor = "#003366";
-  header.style.color = "white";
-  header.style.border = "none";
-  header.style.padding = "10px";
-  header.style.cursor = "pointer";
-  header.style.fontSize = "18px";
-  header.style.borderRadius = "8px";
-  header.style.textAlign = "right";
-  header.style.outline = "none";
+  header.className = "accordion-button";
 
   const contentDiv = document.createElement("div");
-  contentDiv.style.padding = "10px";
-  contentDiv.style.display = "none";
-  contentDiv.style.backgroundColor = "white";
-  contentDiv.style.border = "1px solid #ccc";
-  contentDiv.style.borderTop = "none";
-  contentDiv.style.borderRadius = "0 0 8px 8px";
+  contentDiv.className = "accordion-content";
 
   contentDiv.appendChild(content);
 
@@ -63,6 +49,11 @@ function loadMatches(type = 'today') {
       const container = document.getElementById("matches");
       container.innerHTML = "";
 
+      if (!data.response || data.response.length === 0) {
+        container.innerHTML = "<p>لا توجد مباريات لهذا التاريخ.</p>";
+        return;
+      }
+
       // تجميع المباريات حسب اسم البطولة
       const groupedByLeague = {};
 
@@ -84,25 +75,21 @@ function loadMatches(type = 'today') {
         leagueMatches.forEach(fixture => {
           const div = document.createElement("div");
           div.className = "match";
-          div.style.border = "1px solid #ddd";
-          div.style.padding = "10px";
-          div.style.marginBottom = "10px";
-          div.style.borderRadius = "8px";
 
           const teams = fixture.teams;
           const dateTime = new Date(fixture.fixture.date);
           const dateString = dateTime.toLocaleDateString();
-          const timeString = dateTime.toLocaleTimeString();
+          const timeString = dateTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
           div.innerHTML = `
-            <a href="details.html?id=${fixture.fixture.id}" style="display:flex; justify-content: space-between; align-items:center; text-decoration:none; color:#222;">
+            <a href="details.html?id=${fixture.fixture.id}" target="_blank" rel="noopener">
               <div style="text-align:center;">
-                <img src="${teams.home.logo}" width="40" height="40"><br>
+                <img src="${teams.home.logo}" alt="${teams.home.name}"/>
                 <strong>${teams.home.name}</strong>
               </div>
               <div style="font-size: 18px; margin: 0 10px;">vs</div>
               <div style="text-align:center;">
-                <img src="${teams.away.logo}" width="40" height="40"><br>
+                <img src="${teams.away.logo}" alt="${teams.away.name}"/>
                 <strong>${teams.away.name}</strong>
               </div>
               <div style="text-align:center; min-width:110px;">
@@ -116,7 +103,31 @@ function loadMatches(type = 'today') {
 
         container.appendChild(createAccordion(leagueName, leagueContent));
       });
+    })
+    .catch(() => {
+      document.getElementById("matches").innerHTML = "<p>حدث خطأ أثناء جلب البيانات.</p>";
     });
+}
+
+// زر تغيير التاريخ
+document.getElementById("yesterdayBtn").addEventListener("click", () => {
+  setActiveButton("yesterdayBtn");
+  loadMatches("yesterday");
+});
+document.getElementById("todayBtn").addEventListener("click", () => {
+  setActiveButton("todayBtn");
+  loadMatches("today");
+});
+document.getElementById("tomorrowBtn").addEventListener("click", () => {
+  setActiveButton("tomorrowBtn");
+  loadMatches("tomorrow");
+});
+
+function setActiveButton(id) {
+  document.querySelectorAll(".buttons button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
 }
 
 // تحميل مباريات اليوم افتراضياً
