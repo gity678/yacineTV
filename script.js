@@ -1,5 +1,4 @@
-const apiKey = "1ea076923fad980723ff35e2340f56e3";
-const allowedLeagues = [10]; // مباريات ودية دولية فقط
+const apiKey = "YOUR_API_KEY"; // استبدل بمفتاح API الخاص بك
 
 function getDate(offsetDays = 0) {
   const date = new Date();
@@ -24,9 +23,7 @@ function loadMatches(offset) {
     .then(data => {
       matchesDiv.innerHTML = "";
 
-      const filtered = data.response.filter(match =>
-        allowedLeagues.includes(match.league.id)
-      );
+      const filtered = data.response;
 
       if (filtered.length === 0) {
         matchesDiv.innerHTML = "<p>لا توجد مباريات في هذا اليوم.</p>";
