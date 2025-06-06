@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تفاصيل المباراة</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+
+    h1, h2, h3 {
+      color: #003366;
+    }
+
+    .team-box {
+      background: white;
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .event {
+      background: #e6f2ff;
+      border: 1px solid #b3d1ff;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+    }
+
+    .stat-box {
+      background: #fff7e6;
+      border: 1px solid #ffd480;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+    }
+
+    .title-bar {
+      background-color: #003366;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .loader {
+      font-size: 20px;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="title-bar">
+    <h1>تفاصيل المباراة</h1>
+  </div>
+
+  <div id="content">
+    <div class="loader">⏳ جاري تحميل تفاصيل المباراة...</div>
+  </div>
+
+  <script src="details.js"></script>
+</body>
+</html>
