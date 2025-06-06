@@ -1,56 +1,14 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مباريات اليوم</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-  <h1 id="loading-text">تحميل التطبيق...</h1>
-  <div id="root"></div>
+  <h1>مباريات اليوم</h1>
+  <div id="matches"></div>
 
-  <script type="text/babel">
-    const channels = [
-      { id: 1, name: "قناة رياضية 1", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
-      { id: 2, name: "قناة رياضية 2", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
-      { id: 3, name: "قناة أفلام", url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" },
-    ];
-
-    const App = () => {
-      const [selectedChannel, setSelectedChannel] = React.useState(channels[0]);
-
-      React.useEffect(() => {
-        const player = videojs('video-player');
-        player.src({ src: selectedChannel.url, type: "application/x-mpegURL" });
-        return () => player.dispose();
-      }, [selectedChannel]);
-
-      return (
-        <div className="container mx-auto p-4">
-          <h1 className="text-3xl font-bold text-center mb-6">تطبيق البث المباشر</h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2">
-              <video
-                id="video-player"
-                className="video-js vjs-default-skin w-full h-96"
-                controls
-                autoPlay
-                data-setup='{}'
-              ></video>
-            </div>
-            <div className="channel-list bg-white p-4 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4">القنوات</h2>
-              {channels.map(channel => (
-                <div
-                  key={channel.id}
-                  className="channel-item p-2 mb-2 rounded-lg border"
-                  onClick={() => setSelectedChannel(channel)}
-                >
-                  {channel.name}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    ReactDOM.render(<App />, document.getElementById('root'));
-
-    // ⬇️ إخفاء نص التحميل بعد بدء التطبيق
-    document.getElementById('loading-text')?.remove();
-  </script>
+  <script src="script.js"></script>
 </body>
+</html>
