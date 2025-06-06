@@ -1,22 +1,88 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f8f9fa;
-  color: #333;
-  padding: 20px;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 10px 15px;
+  color: #222;
   direction: rtl;
-  text-align: center;
 }
 
-#matches {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+header {
+  text-align: center;
+  margin-bottom: 20px;
 }
+
+h1 {
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+button {
+  background-color: #ddd;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button.active,
+button:hover {
+  background-color: #003366;
+  color: white;
+}
+
 .match {
-  background: #ffffff;
-  border: 1px solid #ccc;
+  background-color: white;
   border-radius: 8px;
   padding: 10px;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+.match a {
+  text-decoration: none;
+  color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.match img {
+  display: block;
+  margin: 0 auto 5px;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.accordion-button {
+  width: 100%;
+  background-color: #003366;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 8px;
+  text-align: right;
+  outline: none;
+  margin-bottom: 5px;
+}
+
+.accordion-content {
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  display: none;
+  margin-bottom: 15px;
 }
