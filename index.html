@@ -1,71 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>مباريات كرة القدم</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 10px;
-      background-color: #f2f2f2;
-    }
-
-    h1 {
-      text-align: center;
-      color: #003366;
-    }
-
-    .match {
-      background-color: white;
-      border: 1px solid #ccc;
-      margin: 15px 0;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .teams {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 20px;
-    }
-
-    .tabs button {
-      padding: 10px;
-      background-color: #003366;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .tabs button:hover {
-      background-color: #0055aa;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>📅 مباريات كرة القدم</h1>
+  <header>
+    <h1>مباريات كرة القدم حسب البطولة</h1>
+    <div class="buttons">
+      <button id="yesterdayBtn">مباريات الأمس</button>
+      <button id="todayBtn" class="active">مباريات اليوم</button>
+      <button id="tomorrowBtn">مباريات الغد</button>
+    </div>
+  </header>
 
-  <div class="tabs">
-    <button onclick="loadMatches('yesterday')">مباريات الأمس</button>
-    <button onclick="loadMatches('today')">مباريات اليوم</button>
-    <button onclick="loadMatches('tomorrow')">مباريات الغد</button>
-  </div>
-
-  <div id="matches">جارٍ التحميل...</div>
+  <main>
+    <div id="matches">جارٍ التحميل...</div>
+  </main>
 
   <script src="script.js"></script>
 </body>
