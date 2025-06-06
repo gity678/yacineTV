@@ -2,9 +2,8 @@ const apiKey = "1ea076923fad980723ff35e2340f56e3";
 const today = new Date().toISOString().split('T')[0];
 const url = `https://v3.football.api-sports.io/fixtures?date=${today}`;
 
-// ✅ المفضلة:
-const allowedLeagues = [1, 6, 10, 13];    // كأس العالم، أمم إفريقيا، ودية، تصفيات
-const allowedTeams = [1096];             // المنتخب المغربي
+// ✅ فقط مباريات ودية دولية
+const allowedLeagues = [10];
 
 fetch(url, {
   method: "GET",
@@ -19,18 +18,11 @@ fetch(url, {
 
     const filteredMatches = data.response.filter(match => {
       const leagueId = match.league.id;
-      const homeId = match.teams.home.id;
-      const awayId = match.teams.away.id;
-
-      return (
-        allowedLeagues.includes(leagueId) ||
-        allowedTeams.includes(homeId) ||
-        allowedTeams.includes(awayId)
-      );
+      return allowedLeagues.includes(leagueId);
     });
 
     if (filteredMatches.length === 0) {
-      matchesDiv.innerHTML = "<p>لا توجد مباريات دولية أو للمنتخب المغربي اليوم.</p>";
+      matchesDiv.innerHTML = "<p>لا توجد مباريات ودية دولية اليوم.</p>";
       return;
     }
 
@@ -46,3 +38,10 @@ fetch(url, {
         البطولة: ${league.name}<br>
         الوقت: ${fixture.date.slice(11, 16)}
       `;
+      matchesDiv.appendChild(matchDiv);
+    });
+  })
+  .catch(error => {
+    console.error("خطأ:", error);
+    document.getElementById("matches").innerHTML = "حدث خطأ أثناء جلب البيانات.";
+  });
