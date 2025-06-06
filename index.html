@@ -11,6 +11,29 @@
       text-align: center;
     }
 
+    h1 {
+      color: #2c3e50;
+    }
+
+    .buttons {
+      margin-bottom: 20px;
+    }
+
+    .buttons button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      background-color: #2980b9;
+    }
+
     .match {
       background-color: #fff;
       border-radius: 12px;
@@ -35,10 +58,6 @@
       width: 100px;
     }
 
-    h1 {
-      color: #2c3e50;
-    }
-
     p {
       margin: 8px 0;
     }
@@ -46,8 +65,15 @@
 </head>
 <body>
 
-  <h1>مباريات ودية دولية هذا الأسبوع</h1>
-  <div id="matches">جاري التحميل...</div>
+  <h1>مباريات ودية دولية</h1>
+
+  <div class="buttons">
+    <button onclick="loadMatches(-1)">مباريات الأمس</button>
+    <button onclick="loadMatches(0)">مباريات اليوم</button>
+    <button onclick="loadMatches(1)">مباريات الغد</button>
+  </div>
+
+  <div id="matches">يرجى اختيار اليوم 👆</div>
 
   <script src="script.js"></script>
 </body>
