@@ -10,6 +10,43 @@ function getDate(offset = 0) {
   return date.toISOString().split('T')[0];
 }
 
+function createAccordion(title, content) {
+  const container = document.createElement("div");
+  container.style.marginBottom = "15px";
+
+  const header = document.createElement("button");
+  header.textContent = title;
+  header.style.width = "100%";
+  header.style.backgroundColor = "#003366";
+  header.style.color = "white";
+  header.style.border = "none";
+  header.style.padding = "10px";
+  header.style.cursor = "pointer";
+  header.style.fontSize = "18px";
+  header.style.borderRadius = "8px";
+  header.style.textAlign = "right";
+  header.style.outline = "none";
+
+  const contentDiv = document.createElement("div");
+  contentDiv.style.padding = "10px";
+  contentDiv.style.display = "none";
+  contentDiv.style.backgroundColor = "white";
+  contentDiv.style.border = "1px solid #ccc";
+  contentDiv.style.borderTop = "none";
+  contentDiv.style.borderRadius = "0 0 8px 8px";
+
+  contentDiv.appendChild(content);
+
+  header.addEventListener("click", () => {
+    contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
+  });
+
+  container.appendChild(header);
+  container.appendChild(contentDiv);
+
+  return container;
+}
+
 function loadMatches(type = 'today') {
   document.getElementById("matches").innerHTML = "<p>جاري التحميل...</p>";
 
@@ -23,39 +60,64 @@ function loadMatches(type = 'today') {
   })
     .then(res => res.json())
     .then(data => {
-      console.log("عدد النتائج:", data.response.length, data);
       const container = document.getElementById("matches");
       container.innerHTML = "";
+
+      // تجميع المباريات حسب اسم البطولة
+      const groupedByLeague = {};
+
       data.response.forEach(fixture => {
-        const div = document.createElement("div");
-        div.className = "match";
+        const leagueName = fixture.league.name;
 
-        const teams = fixture.teams;
-        const league = fixture.league;
-        const dateTime = new Date(fixture.fixture.date);
-        const dateString = dateTime.toLocaleDateString();
-        const timeString = dateTime.toLocaleTimeString();
+        if (!groupedByLeague[leagueName]) {
+          groupedByLeague[leagueName] = [];
+        }
+        groupedByLeague[leagueName].push(fixture);
+      });
 
-        div.innerHTML = `
-          <a href="details.html?id=${fixture.fixture.id}">
-            <div class="teams">
-              <div>
-                <img src="${teams.home.logo}" width="50" height="50"><br>
+      // لكل بطولة نُنشئ قائمة منسدلة
+      Object.keys(groupedByLeague).forEach(leagueName => {
+        const leagueMatches = groupedByLeague[leagueName];
+
+        const leagueContent = document.createElement("div");
+
+        leagueMatches.forEach(fixture => {
+          const div = document.createElement("div");
+          div.className = "match";
+          div.style.border = "1px solid #ddd";
+          div.style.padding = "10px";
+          div.style.marginBottom = "10px";
+          div.style.borderRadius = "8px";
+
+          const teams = fixture.teams;
+          const dateTime = new Date(fixture.fixture.date);
+          const dateString = dateTime.toLocaleDateString();
+          const timeString = dateTime.toLocaleTimeString();
+
+          div.innerHTML = `
+            <a href="details.html?id=${fixture.fixture.id}" style="display:flex; justify-content: space-between; align-items:center; text-decoration:none; color:#222;">
+              <div style="text-align:center;">
+                <img src="${teams.home.logo}" width="40" height="40"><br>
                 <strong>${teams.home.name}</strong>
               </div>
-              <div style="font-size: 20px;">vs</div>
-              <div>
-                <img src="${teams.away.logo}" width="50" height="50"><br>
+              <div style="font-size: 18px; margin: 0 10px;">vs</div>
+              <div style="text-align:center;">
+                <img src="${teams.away.logo}" width="40" height="40"><br>
                 <strong>${teams.away.name}</strong>
               </div>
-            </div>
-            <p>📅 ${dateString} - 🕒 ${timeString}</p>
-            <p>🏆 ${league.name}</p>
-          </a>
-        `;
-        container.appendChild(div);
+              <div style="text-align:center; min-width:110px;">
+                <p style="margin:0;">${dateString}</p>
+                <p style="margin:0;">${timeString}</p>
+              </div>
+            </a>
+          `;
+          leagueContent.appendChild(div);
+        });
+
+        container.appendChild(createAccordion(leagueName, leagueContent));
       });
     });
 }
 
+// تحميل مباريات اليوم افتراضياً
 loadMatches();
