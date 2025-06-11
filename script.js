@@ -1,11 +1,7 @@
 const apiKey = "1ea076923fad980723ff35e2340f56e3";
 
-const allowedCompetitions = [
-  "Friendlies",
-  "World Cup - Qualification South America",
-  "World Cup - Qualification CONCACAF",
-  "World Cup - Qualification Europe"
-];
+// الرموز الرسمية للبطولات التي نريد الإبقاء عليها فقط
+const allowedLeagueIds = ["302", "13", "14", "15"];
 
 const matchesContainer = document.getElementById("matches");
 const yesterdayBtn = document.getElementById("yesterdayBtn");
@@ -35,7 +31,7 @@ async function fetchMatches(offset, button) {
     const data = await response.json();
 
     const filtered = data.filter(match =>
-      allowedCompetitions.includes(match.league_name)
+      allowedLeagueIds.includes(match.league_id)
     );
 
     if (filtered.length === 0) {
