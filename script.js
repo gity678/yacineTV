@@ -1,10 +1,3 @@
-const allowedLeagues = [
-  "Friendlies",
-  "WC Qualification South America",
-  "WC Qualification Europe",
-  "WC Qualification CONCACAF"
-];
-
 const matchesContainer = document.getElementById("matches");
 const yesterdayBtn = document.getElementById("yesterdayBtn");
 const todayBtn = document.getElementById("todayBtn");
@@ -32,21 +25,12 @@ async function fetchMatches(offset, button) {
     const data = await response.json();
 
     if (!data || !data.events) {
-      matchesContainer.innerHTML = "لا توجد مباريات.";
-      return;
-    }
-
-    const filtered = data.events.filter(event =>
-      allowedLeagues.includes(event.strLeague)
-    );
-
-    if (filtered.length === 0) {
-      matchesContainer.innerHTML = "لا توجد مباريات لهذه البطولات.";
+      matchesContainer.innerHTML = "لا توجد مباريات متوفرة.";
       return;
     }
 
     matchesContainer.innerHTML = "";
-    filtered.forEach(match => {
+    data.events.forEach(match => {
       const div = document.createElement("div");
       div.className = "match";
       div.innerHTML = `
@@ -66,5 +50,5 @@ yesterdayBtn.addEventListener("click", () => fetchMatches(-1, yesterdayBtn));
 todayBtn.addEventListener("click", () => fetchMatches(0, todayBtn));
 tomorrowBtn.addEventListener("click", () => fetchMatches(1, tomorrowBtn));
 
-// بدء بعرض مباريات اليوم
+// تحميل مباريات اليوم تلقائيًا
 fetchMatches(0, todayBtn);
